@@ -9,16 +9,12 @@ const server = http.createServer(app);
 const io = socketIO(server);
 
 io.on('connection', socket => {
-    console.log('User connected');
-
-    setInterval(() => {
-        socket.emit('change time', new Date().getSeconds()); 
-    }, 1000);   
+    console.log('User connected');   
     
     
-    socket.on('disconnect', () => {
-      console.log('user disconnected')
-    });
+    socket.on('new message from client', (msg) => {
+      io.emit('new message from server', msg);
+    });    
 })
   
 server.listen(port, () => console.log(`Listening on port ${port}`))
